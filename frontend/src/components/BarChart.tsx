@@ -1,13 +1,7 @@
-import { OutputType } from "@/types";
+// import { OutputType } from "@/types";
 import { BarChart as MUIBarChart } from "@mui/x-charts/BarChart";
 
-interface BarChartProps {
-  data: OutputType;
-}
-
-export default function BarChart({
-  data
-}: BarChartProps) {
+export default function BarChart() {
   const groups = ["group A", "group B", "group C"];
   const seriesData = [
     { data: [4, 3, 5], label: "Travel" },

@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 
 interface Props {
   label?: string;

@@ -11,7 +11,7 @@ interface SliderProps {
 export default function SliderComp({ heading, id, onSlide }: SliderProps) {
   const [sliderValue, setSliderValue] = useState(50);
 
-  const handleSlider = (e) => {
+  const handleSlider = (e: any) => {
     const setValue = e.target.value;
     setSliderValue(setValue);
     onSlide(setValue);

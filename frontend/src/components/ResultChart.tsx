@@ -23,7 +23,7 @@ export default function ResultChart({
       <TableBody>
         {Object.keys(data)
           .filter((key: string) => key !== "total")
-          .sort((a, b) => data[a] > data[b] ? -1 : 1)
+          .sort((a, b) => data[a as keyof OutputType] > data[b as keyof OutputType] ? -1 : 1)
           .map((key: string) => (
             <TableRow key={key}>
               <TableCell>

@@ -1,5 +1,5 @@
 import { FormDataType } from "@/types";
-import { Grid2, List, ListItem, ListItemIcon, ListItemText, TextField, Typography } from "@mui/material";
+import { Grid2, List, ListItem, ListItemIcon, ListItemText, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Dayjs } from "dayjs";
 import { Schedule, Today } from "@mui/icons-material";
@@ -27,15 +27,15 @@ export default function EventDuration({
     let dailyDuration = value.eventDuration.dailyDuration;
 
     switch (key) {
-      case "startDate":
-        startDate = newValue as Dayjs;
-        break;
-      case "endDate":
-        endDate = newValue as Dayjs;
-        break;
-      case "dailyDuration":
-        dailyDuration = parseInt(newValue as string);
-        break;
+    case "startDate":
+      startDate = newValue as Dayjs;
+      break;
+    case "endDate":
+      endDate = newValue as Dayjs;
+      break;
+    case "dailyDuration":
+      dailyDuration = parseInt(newValue as string);
+      break;
     }
     const totalDays = calculateTotalDays(startDate, endDate);
     const totalHours = calculateTotalHours(totalDays, dailyDuration);
