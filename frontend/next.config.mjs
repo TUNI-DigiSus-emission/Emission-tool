@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: "/TUNI-DigiSus-emission",
+  basePath: "/Emission-tool",
   output: "export",
 };
 
