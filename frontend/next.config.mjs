@@ -4,8 +4,8 @@ const nextConfig = {
   redirects: async () => {
     return [
       {
-        source: "/api",
-        destination: "/Emission-tool/api",
+        source: "/api/:path*",
+        destination: "/Emission-tool/api/:path*",
         permanent: true,
       },
     ];
