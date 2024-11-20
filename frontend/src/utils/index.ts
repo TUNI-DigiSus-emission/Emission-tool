@@ -1,34 +1,72 @@
-import { FormDataType, InputType } from "@/types";
+import { FormDataType, InputType, OutputType } from "@/types";
 
-export function getInputData(formData: FormDataType) {
-  const returnData: Record<string, string> = {
-    transportation_people: formData.attendees.total.toString(),
-    transportation_carPercentage: formData.transport.cars.toString(),
-    transportation_carDistance: formData.transport.carsKm.toString(),
-    transportation_publicTransportPercentage: formData.transport.public.toString(),
-    transportation_publicTransportDistance: formData.transport.publicKm.toString(),
-    transportation_shortFlightPercentage: formData.transport.shortHaulFlights.toString(),
-    transportation_shortFlightDistance: formData.transport.shortHaulFlightsKm.toString(),
-    transportation_longFlightPercentage: formData.transport.longHaulFlights.toString(),
-    transportation_longFlightDistance: formData.transport.longHaulFlightsKm.toString(),
-    housing_people: formData.overnightStays.amount.toString(),
-    housing_nights: formData.overnightStays.nights.toString(),
-    space_size: formData.space.size.toString(),
-    space_time: (formData.space.hours * formData.space.days).toString(),
-    coffee_days: formData.eventDuration.totalDays.toString(),
-    coffee_people: (formData.attendees.total * formData.drink.cupsPerServing * formData.drink.amountPerDay).toString(),
-    food_days: formData.eventDuration.totalDays.toString(),
-    food_meatServings: (formData.food.meatMealsAmount * formData.food.amountPerDay).toString(),
-    food_nonMeatServings: (formData.food.nonMeatMealsAmount * formData.food.amountPerDay).toString(),
-    bandwidth_people: formData.digitalTools.usersWatching.toString(),
-    bandwidth_sessionLength: (formData.digitalTools.hoursStreamedPerDay * formData.eventDuration.totalDays).toString(),
-    devices_people: formData.digitalTools.usersWatching.toString(),
-    devices_sessionLength: (formData.digitalTools.hoursStreamedPerDay * formData.eventDuration.totalDays).toString(),
-    recording_recordingLength: (formData.digitalTools.hoursRecordedPerDay * formData.eventDuration.totalDays).toString(),
-    recording_storageLifetime: formData.digitalTools.daysStored.toString(),
+export function getInputData(formData: FormDataType): InputType {
+  const returnData: InputType = {
+    transportation: {
+      people: formData.attendees.total,
+      carPercentage: formData.transport.cars,
+      carDistance: formData.transport.carsKm,
+      publicTransportPercentage: formData.transport.public,
+      publicTransportDistance: formData.transport.publicKm,
+      shortFlightPercentage: formData.transport.shortHaulFlights,
+      shortFlightDistance: formData.transport.shortHaulFlightsKm,
+      longFlightPercentage: formData.transport.longHaulFlights,
+      longFlightDistance: formData.transport.longHaulFlightsKm,
+    },
+    housing: {
+      people: formData.overnightStays.amount,
+      nights: formData.overnightStays.nights,
+    },
+    space: {
+      size: formData.space.size,
+      time: formData.space.hours * formData.space.days,
+    },
+    coffee: {
+      days: formData.eventDuration.totalDays,
+      people: formData.attendees.total * formData.drink.cupsPerServing * formData.drink.amountPerDay,
+    },
+    food: {
+      days: formData.eventDuration.totalDays,
+      meatServings: formData.food.meatMealsAmount * formData.food.amountPerDay,
+      nonMeatServings: formData.food.nonMeatMealsAmount * formData.food.amountPerDay,
+    },
+    bandwidth: {
+      people: formData.digitalTools.usersWatching,
+      sessionLength: formData.digitalTools.hoursStreamedPerDay * formData.eventDuration.totalDays,
+    },
+    devices: {
+      people: formData.digitalTools.usersWatching,
+      sessionLength: formData.digitalTools.hoursStreamedPerDay * formData.eventDuration.totalDays,
+    },
+    recording: {
+      recordingLength: formData.digitalTools.hoursRecordedPerDay * formData.eventDuration.totalDays,
+      storageLifetime: formData.digitalTools.daysStored,
+    },
   };
   
-  return new URLSearchParams(returnData).toString();
+  return returnData;
+}
+
+export function calculateEmission(data: InputType): OutputType {
+  const transportation = calculateTransportation(data.transportation);
+  const housing = calculateHousing(data.housing);
+  const space = calculateSpace(data.space);
+  const coffee = calculateCoffee(data.coffee);
+  const food = calculateFood(data.food);
+  const bandwidth = calculateBandwidth(data.bandwidth);
+  const devices = calculatePhysicalDevices(data.devices);
+  const recording = calculateRecording(data.recording);
+  return {
+    transportation,
+    housing,
+    space,
+    coffee,
+    food,
+    bandwidth,
+    devices,
+    recording,
+    total: transportation + housing + space + coffee + food + bandwidth + devices + recording,
+  };
 }
 
 export function calculateTransportation(

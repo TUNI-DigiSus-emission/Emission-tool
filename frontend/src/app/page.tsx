@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { Stack, Typography } from "@mui/material";
-import axios from "axios";
+// import axios from "axios";
 import Form from "@/modules/Form";
 import { FormDataType, OutputType } from "@/types";
 import dayjs from "dayjs";
-import { getInputData } from "@/utils";
+import { calculateEmission, getInputData } from "@/utils";
 import Results from "@/modules/Results";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -76,12 +76,9 @@ export default function Home() {
     try {
       const inputData = getInputData(formData);
 
-      console.log("Input data:", inputData);
+      const data = calculateEmission(inputData);
 
-      const response = await axios.get(
-        `/api/v1/calculate?${inputData}`
-      );
-      setResult(response.data);
+      setResult(data);
     } catch (error) {
       console.error("Error submitting form:", error);
     }

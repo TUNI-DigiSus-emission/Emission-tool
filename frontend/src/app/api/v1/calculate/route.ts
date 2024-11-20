@@ -1,7 +1,7 @@
 import { InputType } from "@/types";
 import { calculateBandwidth, calculateCoffee, calculateFood, calculateHousing, calculatePhysicalDevices, calculateRecording, calculateSpace, calculateTransportation } from "@/utils";
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
   try {
     const url = new URL(req.url);
     const searchParams = url.searchParams;
