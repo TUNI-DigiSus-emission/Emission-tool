@@ -77,7 +77,7 @@ export default function Home() {
       const inputData = getInputData(formData);
 
       const response = await axios.post(
-        "http://localhost:8000/v1/calculate",
+        "/api/v1/calculate/",
         inputData
       );
       setResult(response.data);
@@ -88,13 +88,6 @@ export default function Home() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"fi"}>
-      {/* <button
-        onClick={() => {
-          fetch("/").then((res) => res.json()).then((data) => console.log(data));
-        }}
-      >
-        Click me
-      </button> */}
       <Stack
         margin={"45px 0"}
         gap={2}
