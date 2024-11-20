@@ -76,9 +76,10 @@ export default function Home() {
     try {
       const inputData = getInputData(formData);
 
-      const response = await axios.post(
-        "/EmissionTool/api/v1/calculate/",
-        inputData
+      console.log("Input data:", inputData);
+
+      const response = await axios.get(
+        `/api/v1/calculate?${inputData}`
       );
       setResult(response.data);
     } catch (error) {
