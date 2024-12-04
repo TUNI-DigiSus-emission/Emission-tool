@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-// // import Header from "@/components/Header";
-// import Footer from "@/components/Footer";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { CssBaseline } from "@mui/material";
 import ThemeProvider from "./theme-provider";
@@ -29,7 +27,6 @@ export default function RootLayout({
         <ThemeProvider>
           <CssBaseline />
           <AppRouterCacheProvider>
-            {/* <Header /> */}
             <div
               style={{
                 display: "flex",
