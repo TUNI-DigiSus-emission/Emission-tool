@@ -1,5 +1,5 @@
 import { InputType } from "@/types";
-import { calculateBandwidth, calculateCoffee, calculateFood, calculateHousing, calculatePhysicalDevices, calculateRecording, calculateSpace, calculateTransportation } from "@/utils";
+import { calculateBandwidth, calculateCoffee, calculateFood, calculateHousing, calculateDevices, calculateRecording, calculateSpace, calculateTransportation } from "@/utils";
 
 export async function POST(req: Request) {
   try {
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     const coffee = calculateCoffee(inputData.coffee);
     const food = calculateFood(inputData.food);
     const bandwidth = calculateBandwidth(inputData.bandwidth);
-    const devices = calculatePhysicalDevices(inputData.devices);
+    const devices = calculateDevices(inputData.devices);
     const recording = calculateRecording(inputData.recording);
     const total = transportation + housing + space + coffee + food + bandwidth + devices + recording;
 

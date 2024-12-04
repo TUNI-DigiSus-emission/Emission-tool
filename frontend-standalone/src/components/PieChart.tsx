@@ -3,33 +3,39 @@ import { PieChart as MUIPieChart } from "@mui/x-charts/PieChart";
 
 interface PieChartProps {
   data: OutputType;
+  id: string;
 }
 
 function getDataFormatted(data: OutputType) {
   return [{
     data: [
-      { id: 0, value: data.transportation, label: "Transportation" },
-      { id: 1, value: data.housing, label: "Housing" },
-      { id: 2, value: data.space, label: "Space" },
-      { id: 3, value: data.coffee, label: "Coffee" },
-      { id: 4, value: data.food, label: "Food" },
-      { id: 5, value: data.bandwidth, label: "Bandwidth" },
-      { id: 6, value: data.devices, label: "Devices" },
-      { id: 7, value: data.recording, label: "Recording" },
+      { value: data.transportation, label: "Transportation" },
+      { value: data.housing, label: "Accomodation" },
+      { value: data.space, label: "Space" },
+      { value: data.coffee, label: "Coffee" },
+      { value: data.food, label: "Food" },
+      { value: data.bandwidth, label: "Bandwidth" },
+      { value: data.devices, label: "Devices" },
+      { value: data.recording, label: "Recording" },
     ]
+      .sort((a, b) => a.label.localeCompare(b.label))
+      .map((item, idx) => ({ ...item, id: idx }))
   }];
 };
 
 
 export default function PieChart({
-  data
+  data,
+  id
 }: PieChartProps) {
   return (
-    <MUIPieChart
-      colors={["#BFECFF", "#CDC1FF", "#FFF6E3", "#FFCCEA"]}
-      series={getDataFormatted(data)}
-      width={600}
-      height={250}
-    />
+    <div id={id}>
+      <MUIPieChart
+        colors={["#91deff", "#b19ffc", "#ffd887", "#fc8953", "#8ac983", "#ffa1d8", "#6773a6", "#a3a2a2"]}
+        series={getDataFormatted(data)}
+        width={600}
+        height={250}
+      />
+    </div>
   );
 }

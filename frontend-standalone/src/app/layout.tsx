@@ -3,6 +3,7 @@ import "./globals.css";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { CssBaseline } from "@mui/material";
 import ThemeProvider from "./theme-provider";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "DigiSus-project",
@@ -37,7 +38,7 @@ export default function RootLayout({
             >
               {children}
             </div>
-            {/* <Footer /> */}
+            <Footer />
           </AppRouterCacheProvider>
         </ThemeProvider>
       </body>

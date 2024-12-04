@@ -10,6 +10,7 @@ export default function GetData() {
     axios
       .get("http://localhost:8000")
       .then((result) => {
+        console.log(result.data);
         setData(result.data);
       })
       .catch((error) => console.log(error));

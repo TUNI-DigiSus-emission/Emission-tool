@@ -14,6 +14,8 @@ export type FormDataType = {
     totalDays: number;
     totalHours: number;
   };
+  eventFormat: "On-site" | "Hybrid" | "Remote";
+
   attendees: {
     total: number;
     local: number;
@@ -70,9 +72,12 @@ export type InputType = {
   bandwidth: BandwidthType;
   devices: DevicesType;
   recording: RecordingType;
+  eventFormat: EventFormatType;
+  attendees: AttendeesType;
+  duration: DurationType;
 };
 
-type TransportationType = {
+export type TransportationType = {
   people: number;
   carPercentage: number;
   carDistance: number;
@@ -84,43 +89,58 @@ type TransportationType = {
   longFlightDistance: number;
 };
 
-type Housing = {
+export type Housing = {
   people: number;
   nights: number;
-}
+};
 
-type SpaceType = {
+export type SpaceType = {
   size: number;
   time: number;
-}
+};
 
-type CoffeeType = {
+export type CoffeeType = {
   days: number;
   people: number;
-}
+};
 
-type FoodType = {
+export type FoodType = {
   days: number;
   meatServings: number;
   nonMeatServings: number;
-}
+};
 
-type BandwidthType = {
+export type BandwidthType = {
   sessionLength: number;
   people: number;
-}
+};
 
-type DevicesType = {
+export type DevicesType = {
   people: number;
   sessionLength: number;
-}
+};
 
-type RecordingType = {
+export type RecordingType = {
   recordingLength: number;
   storageLifetime: number;
-}
+};
+
+export type EventFormatType = "On-site" | "Hybrid" | "Remote";
+
+export type AttendeesType = {
+  total: number;
+  local: number;
+  national: number;
+  international: number;
+};
+
+export type DurationType = {
+  dailyDuration: number;
+  totalDays: number;
+};
 
 export type OutputType = {
+  format: string;
   transportation: number;
   housing: number;
   space: number;
@@ -130,4 +150,6 @@ export type OutputType = {
   devices: number;
   recording: number;
   total: number;
-}
+};
+
+export type OutputList = OutputType[];
