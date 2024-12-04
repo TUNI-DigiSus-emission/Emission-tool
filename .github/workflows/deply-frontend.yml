@@ -18,7 +18,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./frontend
+    working-directory: ./frontend-standalone
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
