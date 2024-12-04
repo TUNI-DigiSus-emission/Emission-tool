@@ -1,0 +1,15 @@
+[tool.robotidy]
+src = [tests]
+
+overwrite = false
+diff = true
+spacecount = 4
+continuation-indent = 4
+
+transformers = [
+    "AlignSettingsSection",
+    "NormalizeNewLines",
+    "NormalizeSeparators",
+    "OrderSettingsSection",
+    "AlignVariablesSection",
+]

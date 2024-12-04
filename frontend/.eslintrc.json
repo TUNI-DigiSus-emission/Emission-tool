@@ -1,0 +1,7 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier/@typescript-eslint"],
+  "rules": {
+    "indent": ["error", 2],
+    "@typescript-eslint/no-explicit-any": "off"
+  }
+}

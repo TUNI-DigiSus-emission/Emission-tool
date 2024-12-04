@@ -1,0 +1,51 @@
+# Python specific
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Robot Framework specific
+*.log
+*.report
+*.xml
+*.html
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Test result directories
+/output/
+reports/
+results/
+logs/
+videos/
+
+# Environment specific
+.env
+.venv/
+env/
+
+# IDE specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Operating System specific
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*.swp
+
+# Other temporary files
+*.tmp
+*.log
+*.coverage
+*.mypy_cache/
+*.pytest_cache/
+
+# Downloads directory
+downloads/

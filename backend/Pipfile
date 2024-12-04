@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==5.1.1"
+psycopg2-binary = "==2.9.9"
+django-cors-headers = "*"
+asgiref = "==3.8.1"
+sqlparse = "==0.5.1"
+typing-extensions = "==4.12.2"
+transformers = "*"
+torch = "==2.3.1+cpu"
+numpy = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3"

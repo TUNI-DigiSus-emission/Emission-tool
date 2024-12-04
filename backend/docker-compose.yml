@@ -1,0 +1,26 @@
+# docker-compose.yml
+services:
+  db:
+    image: postgres:14
+    container_name: digisus_postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    ports:
+      - "5432:5432"
+  # Disabled for now
+  # backend:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: digisus_backend
+  #   volumes:
+  #     - .:/app
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - db
+
+volumes:
+  postgres_data:
