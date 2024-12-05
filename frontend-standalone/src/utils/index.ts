@@ -178,7 +178,10 @@ export function calculateEmission(data: InputType): OutputType[] {
   const attendees = data.attendees;
   const duration = data.duration;
 
+  console.log("data", data);
+
   const transportation_emission = calculateTransportation(transportation)
+  console.log("transportation_emission", transportation_emission);
   const housing_emission = calculateHousing(housing)
   const space_emission = calculateSpace(space)
   const coffee_emission = calculateCoffee(coffee)
@@ -211,20 +214,21 @@ export function calculateEmission(data: InputType): OutputType[] {
   if (eventFormat === "On-site") {
     return [
       inputResult,
-      calculateHybridEmission(eventFormat, transportation, housing, space, coffee, food, bandwidth, devices, recording, attendees, duration),
-      calculateRemoteEmission(eventFormat, bandwidth, devices, recording, attendees, duration)
+      calculateHybridEmission("Hybrid", transportation, housing, space, coffee, food, bandwidth, devices, recording, attendees, duration),
+      calculateRemoteEmission("Remote", bandwidth, devices, recording, attendees, duration)
     ];
   } else if (eventFormat === "Hybrid") {
     return [
-      calculateOnSiteEmission(eventFormat, transportation, housing, space, coffee, food, bandwidth, devices, recording, attendees, duration),
       inputResult,
-      calculateRemoteEmission(eventFormat, bandwidth, devices, recording, attendees, duration)
+      calculateOnSiteEmission("On-site", transportation, housing, space, coffee, food, bandwidth, devices, recording, attendees, duration),
+      calculateRemoteEmission("Remote", bandwidth, devices, recording, attendees, duration)
     ];
   } else {
     return [
-      calculateOnSiteEmission(eventFormat, transportation, housing, space, coffee, food, bandwidth, devices, recording, attendees, duration),
-      calculateHybridEmission(eventFormat, transportation, housing, space, coffee, food, bandwidth, devices, recording, attendees, duration),
-      inputResult
+      inputResult,
+      calculateOnSiteEmission("On-site", transportation, housing, space, coffee, food, bandwidth, devices, recording, attendees, duration),
+      calculateHybridEmission("Hybrid", transportation, housing, space, coffee, food, bandwidth, devices, recording, attendees, duration),
+      
     ];
   }
 }

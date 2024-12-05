@@ -73,7 +73,7 @@ export default function Results({
         .catch((err) => {
           console.error("Error converting chart to blob:", err);
         });
-    }, 500);
+    }, 1000);
 
   }, [data])
 
