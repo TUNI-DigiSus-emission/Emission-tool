@@ -52,7 +52,7 @@ const style = StyleSheet.create({
   }
 });
 
-function PDFDocument({ images, formData, results }: { images: Blob[], formData: FormDataType, results: OutputType[] }) {
+function PDFDocument({ pieImages, chartImages, formData, results }: { pieImages: { blob: Blob, id: number }[], chartImages: { blob: Blob, id: number }[], formData: FormDataType, results: OutputType[] }) {
   const doc = (
     <Document>
       <Page size={"A4"} style={style.page}>
@@ -142,14 +142,14 @@ function PDFDocument({ images, formData, results }: { images: Blob[], formData: 
         </View>
         <View style={style.section}>
           <Image src={
-            images[0].arrayBuffer().then((buffer) => {
+            pieImages.find(i => i.id === 1)?.blob.arrayBuffer().then((buffer) => {
               return Buffer.from(buffer)
             })
           } />
         </View>
         <View style={style.section}>
           <Image src={
-            images[3].arrayBuffer().then((buffer) => {
+            chartImages.find(i => i.id === 1)?.blob.arrayBuffer().then((buffer) => {
               return Buffer.from(buffer)
             })
           } />
@@ -163,14 +163,14 @@ function PDFDocument({ images, formData, results }: { images: Blob[], formData: 
         </View>
         <View style={style.section}>
           <Image src={
-            images[1].arrayBuffer().then((buffer) => {
+            pieImages.find(i => i.id === 2)?.blob.arrayBuffer().then((buffer) => {
               return Buffer.from(buffer)
             })
           } />
         </View>
         <View style={style.section}>
           <Image src={
-            images[4].arrayBuffer().then((buffer) => {
+            chartImages.find(i => i.id === 2)?.blob.arrayBuffer().then((buffer) => {
               return Buffer.from(buffer)
             })
           } />
@@ -184,14 +184,14 @@ function PDFDocument({ images, formData, results }: { images: Blob[], formData: 
         </View>
         <View style={style.section}>
           <Image src={
-            images[2].arrayBuffer().then((buffer) => {
+            pieImages.find(i => i.id === 3)?.blob.arrayBuffer().then((buffer) => {
               return Buffer.from(buffer)
             })
           } />
         </View>
         <View style={style.section}>
           <Image src={
-            images[5].arrayBuffer().then((buffer) => {
+            chartImages.find(i => i.id === 3)?.blob.arrayBuffer().then((buffer) => {
               return Buffer.from(buffer)
             })
           } />
@@ -203,10 +203,10 @@ function PDFDocument({ images, formData, results }: { images: Blob[], formData: 
   return doc;
 }
 
-function renderPDF({ images, formData, results }: { images: Blob[], formData: FormDataType, results: OutputType[] }) {
+function renderPDF({ pieImages, chartImages, formData, results }: { pieImages: { blob: Blob, id: number }[], chartImages: { blob: Blob, id: number }[], formData: FormDataType, results: OutputType[] }) {
   return (
     <Renderer style={style.viewer}>
-      <PDFDocument images={images} results={results} formData={formData} />
+      <PDFDocument pieImages={pieImages} chartImages={chartImages} results={results} formData={formData} />
     </Renderer>
   )
 }
@@ -304,7 +304,7 @@ function getResultTextParagraphs(formData: FormDataType, results: OutputType[]):
   ];
 }
 
-function getChartsParagraphs(images: Buffer[], results: OutputType[], offset: number): Paragraph[] {
+function getChartsParagraphs(pieImages: Buffer[], chartImages: Buffer[], results: OutputType[], offset: number): Paragraph[] {
   const label = offset === 0 ? `CO2 emissions (kg) for event: ${results[0].total.toFixed(2)}` : `Possible CO2 emissions (kg) for ${results[offset].format} event: ${results[offset].total.toFixed(2)}`;
 
   return ([
@@ -316,7 +316,7 @@ function getChartsParagraphs(images: Buffer[], results: OutputType[], offset: nu
         }),
         new ImageRun({
           type: "png",
-          data: images[0 + offset],
+          data: pieImages[0 + offset],
           transformation: {
             width: 620,
             height: 250
@@ -324,7 +324,7 @@ function getChartsParagraphs(images: Buffer[], results: OutputType[], offset: nu
         }),
         new ImageRun({
           type: "png",
-          data: images[3 + offset],
+          data: chartImages[0 + offset],
           transformation: {
             width: 620,
             height: 481
@@ -335,9 +335,13 @@ function getChartsParagraphs(images: Buffer[], results: OutputType[], offset: nu
   ]);
 }
 
-async function DocxDocument({ images, formData, results }: { images: Blob[], formData: FormDataType, results: OutputType[] }) {
-  const imageBuffers = await Promise.all(images.map(async (image) => {
-    const buffer = await image.arrayBuffer();
+async function DocxDocument({ pieImages, chartImages, formData, results }: { pieImages: { blob: Blob, id: number }[], chartImages: { blob: Blob, id: number }[], formData: FormDataType, results: OutputType[] }) {
+  const pieImageBuffers = await Promise.all(pieImages.sort((a, b) => a.id - b.id).map(async (image) => {
+    const buffer = await image.blob.arrayBuffer();
+    return Buffer.from(buffer);
+  }));
+  const chartImageBuffers = await Promise.all(chartImages.sort((a, b) => a.id - b.id).map(async (image) => {
+    const buffer = await image.blob.arrayBuffer();
     return Buffer.from(buffer);
   }));
 
@@ -385,19 +389,19 @@ async function DocxDocument({ images, formData, results }: { images: Blob[], for
         properties: {
           type: SectionType.NEXT_PAGE
         },
-        children: getChartsParagraphs(imageBuffers, results, 0)
+        children: getChartsParagraphs(pieImageBuffers, chartImageBuffers, results, 0)
       },
       {
         properties: {
           type: SectionType.NEXT_PAGE
         },
-        children: getChartsParagraphs(imageBuffers, results, 1)
+        children: getChartsParagraphs(pieImageBuffers, chartImageBuffers, results, 1)
       },
       {
         properties: {
           type: SectionType.NEXT_PAGE
         },
-        children: getChartsParagraphs(imageBuffers, results, 2)
+        children: getChartsParagraphs(pieImageBuffers, chartImageBuffers, results, 2)
       }
     ]
   });
@@ -406,13 +410,15 @@ async function DocxDocument({ images, formData, results }: { images: Blob[], for
 interface ExportModalProps {
   formData: FormDataType;
   results: OutputType[];
-  images: Blob[];
+  pieImages: { blob: Blob, id: number }[];
+  chartImages: { blob: Blob, id: number }[];
 }
 
 export default function ExportModal({
   formData,
   results,
-  images
+  pieImages,
+  chartImages
 }: ExportModalProps) {
   const [showPDF, setShowPDF] = useState(false);
 
@@ -459,7 +465,7 @@ export default function ExportModal({
           >
             <Button variant="outlined" endIcon={<PictureAsPdf />}>
               <PDFDownloadLink
-                document={<PDFDocument images={images} results={results} formData={formData} />}
+                document={<PDFDocument pieImages={pieImages} chartImages={chartImages} results={results} formData={formData} />}
                 fileName={`DigiSus-emission_tool.pdf`}
                 style={style.download}
               >
@@ -470,7 +476,7 @@ export default function ExportModal({
             <Button
               variant="outlined"
               endIcon={<TextSnippet />}
-              onClick={async () => Packer.toBlob(await DocxDocument({ images: images, formData: formData, results: results })).then(blob => {
+              onClick={async () => Packer.toBlob(await DocxDocument({ pieImages: pieImages, chartImages: chartImages, formData: formData, results: results })).then(blob => {
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
@@ -482,7 +488,7 @@ export default function ExportModal({
             </Button>
 
           </Box>
-          {renderPDF({ images, formData, results })}
+          {renderPDF({ pieImages, chartImages, formData, results })}
         </Box>
       </Modal>
     </>

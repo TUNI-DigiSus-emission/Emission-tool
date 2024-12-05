@@ -178,10 +178,8 @@ export function calculateEmission(data: InputType): OutputType[] {
   const attendees = data.attendees;
   const duration = data.duration;
 
-  console.log("data", data);
 
   const transportation_emission = calculateTransportation(transportation)
-  console.log("transportation_emission", transportation_emission);
   const housing_emission = calculateHousing(housing)
   const space_emission = calculateSpace(space)
   const coffee_emission = calculateCoffee(coffee)

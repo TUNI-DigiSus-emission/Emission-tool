@@ -11,15 +11,32 @@ import { getCO2Text, getEventTypeText } from "@/utils";
 interface ResultsProps {
   data: OutputType[] | null;
   input: FormDataType;
+  pieImages: {
+    blob: Blob,
+    id: number
+  }[];
+  chartImages: {
+    blob: Blob,
+    id: number
+  }[];
+  setPieImages: React.Dispatch<React.SetStateAction<{
+    blob: Blob,
+    id: number
+  }[]>>;
+  setChartImages: React.Dispatch<React.SetStateAction<{
+    blob: Blob,
+    id: number
+  }[]>>;
 }
 
 export default function Results({
   data,
-  input
+  input,
+  pieImages,
+  chartImages,
+  setPieImages,
+  setChartImages,
 }: ResultsProps) {
-  const [pieImg, setPieImg] = useState<Blob[]>([]);
-  const [chartImg, setChartImg] = useState<Blob[]>([]);
-
   useEffect(() => {
     if (!data) {
       return;
@@ -28,7 +45,7 @@ export default function Results({
     setTimeout(() => {
       toBlob(document.getElementById("pie-chart_0") as HTMLElement)
         .then((blob) => {
-          if (blob) setPieImg(prev => [...prev, blob]);
+          if (blob) setPieImages(prev => [...prev, {blob: blob, id: 1}]);
         })
         .catch((err) => {
           console.error("Error converting pie chart to blob:", err);
@@ -36,7 +53,7 @@ export default function Results({
 
       toBlob(document.getElementById("pie-chart_1") as HTMLElement)
         .then((blob) => {
-          if (blob) setPieImg(prev => [...prev, blob]);
+          if (blob) setPieImages(prev => [...prev, {blob: blob, id: 2}]);
         })
         .catch((err) => {
           console.error("Error converting pie chart to blob:", err);
@@ -44,7 +61,7 @@ export default function Results({
 
       toBlob(document.getElementById("pie-chart_2") as HTMLElement)
         .then((blob) => {
-          if (blob) setPieImg(prev => [...prev, blob]);
+          if (blob) setPieImages(prev => [...prev, {blob: blob, id: 3}]);
         })
         .catch((err) => {
           console.error("Error converting pie chart to blob:", err);
@@ -52,7 +69,7 @@ export default function Results({
 
       toBlob(document.getElementById("result-chart_0") as HTMLElement)
         .then((blob) => {
-          if (blob) setChartImg(prev => [...prev, blob]);
+          if (blob) setChartImages(prev => [...prev, {blob: blob, id: 1}]);
         })
         .catch((err) => {
           console.error("Error converting chart to blob:", err);
@@ -60,7 +77,7 @@ export default function Results({
 
       toBlob(document.getElementById("result-chart_1") as HTMLElement)
         .then((blob) => {
-          if (blob) setChartImg(prev => [...prev, blob]);
+          if (blob) setChartImages(prev => [...prev, {blob: blob, id: 2}]);
         })
         .catch((err) => {
           console.error("Error converting chart to blob:", err);
@@ -68,7 +85,7 @@ export default function Results({
 
       toBlob(document.getElementById("result-chart_2") as HTMLElement)
         .then((blob) => {
-          if (blob) setChartImg(prev => [...prev, blob]);
+          if (blob) setChartImages(prev => [...prev, {blob: blob, id: 3}]);
         })
         .catch((err) => {
           console.error("Error converting chart to blob:", err);
@@ -168,7 +185,8 @@ export default function Results({
             <ExportModal
               formData={input}
               results={data}
-              images={pieImg && chartImg ? [...pieImg, ...chartImg] : []}
+              pieImages={pieImages}
+              chartImages={chartImages}
             />
           </Grid2>
         </Grid2>

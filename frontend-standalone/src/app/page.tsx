@@ -19,6 +19,14 @@ export default function Home() {
     open: false,
     severity: "error",
   });
+  const [pieImages, setPieImages] = useState<{
+    blob: Blob,
+    id: number
+  }[]>([]);
+  const [chartImages, setChartImages] = useState<{
+    blob: Blob,
+    id: number
+  }[]>([]);
   const [formData, setFormData] = useState<FormDataType>({
     eventType: "Lecture/Information sharing",
     hybrid: false,
@@ -85,6 +93,8 @@ export default function Home() {
 
       const data = calculateEmission(inputData);
 
+      setPieImages([]);
+      setChartImages([]);
       setResult(data);
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -125,7 +135,14 @@ export default function Home() {
           Submit
         </Button>
 
-        <Results data={result} input={formData} />
+        <Results
+          data={result}
+          input={formData}
+          pieImages={pieImages}
+          chartImages={chartImages}
+          setPieImages={setPieImages}
+          setChartImages={setChartImages}
+        />
       </Stack>
 
       <Notification
